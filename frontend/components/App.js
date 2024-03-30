@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import * as yup from 'yup'
 import schemas from '../../shared/schemas'
+import langData from "../i18n/index.json"
 
 /*
   👉 TASK 2
@@ -11,6 +12,7 @@ import schemas from '../../shared/schemas'
   This is commonly done using libraries such as `react-i18next` or `react-intl`
   But today you will do it "by hand" using the JSON file inside the `i18n` folder
 */
+const {en, esp} = langData
 
 const getInitialValues = () => ({ username: '', favLanguage: '', favFood: '', agreement: false })
 const getInitialValidation = () => ({ username: '', favLanguage: '', favFood: '', agreement: '' })
@@ -64,7 +66,7 @@ export default function App({ lang = 'en' }) {
   return (
     <div>
       <h2>
-        Create an Account
+      {language === "en" ? en.TEXT_HEADING_CREATE_ACCOUNT : esp.TEXT_HEADING_CREATE_ACCOUNT}
         <span onClick={() => setLanguage(language === 'en' ? 'esp' : 'en')}>
           {language === 'en' ? ' 🇺🇸' : ' 🇪🇸'}
         </span>
@@ -74,14 +76,14 @@ export default function App({ lang = 'en' }) {
         {failure && <h4 className="error">{failure}</h4>}
 
         <div className="inputGroup">
-          <label htmlFor="username">Username:</label>
-          <input id="username" name="username" onChange={onChange} value={values.username} type="text" placeholder="Type username" />
+          <label htmlFor="username">{language === "en" ? en.LABEL_USERNAME : esp.LABEL_USERNAME }</label>
+          <input id="username" name="username" onChange={onChange} value={values.username} type="text" placeholder={language === "en" ? en.PLACEHOLDER_USERNAME : esp.PLACEHOLDER_USERNAME} />
           {errors.username && <div className="validation">{errors.username}</div>}
         </div>
 
         <div className="inputGroup">
           <fieldset>
-            <legend>Favorite language:</legend>
+            <legend>{language === "en" ? en.TEXT_FAV_LANG : esp.TEXT_FAV_LANG}</legend>
             <label>
               <input onChange={onChange} type="radio" name="favLanguage" value="javascript" checked={values.favLanguage == 'javascript'} />
               JavaScript
@@ -95,12 +97,12 @@ export default function App({ lang = 'en' }) {
         </div>
 
         <div className="inputGroup">
-          <label htmlFor="favFood">Favorite food:</label>
+          <label htmlFor="favFood">{language === "en" ? en.LABEL_FAV_FOOD : esp.LABEL_FAV_FOOD}</label>
           <select id="favFood" name="favFood" value={values.favFood} onChange={onChange}>
-            <option value="">-- Select favorite food --</option>
+            <option value="">{language === "en" ? en.TEXT_OPT_FAV_FOOD_1 : esp.TEXT_OPT_FAV_FOOD_1}</option>
             <option value="pizza">Pizza</option>
-            <option value="spaghetti">Spaghetti</option>
-            <option value="broccoli">Broccoli</option>
+            <option value="spaghetti">{language === "en" ? en.TEXT_OPT_FAV_FOOD_3 : esp.TEXT_OPT_FAV_FOOD_3}</option>
+            <option value="broccoli">{language === "en" ? en.TEXT_OPT_FAV_FOOD_4 : esp.TEXT_OPT_FAV_FOOD_4}</option>
           </select>
           {errors.favFood && <div className="validation">{errors.favFood}</div>}
         </div>
@@ -108,13 +110,13 @@ export default function App({ lang = 'en' }) {
         <div className="inputGroup">
           <label>
             <input id="agreement" type="checkbox" name="agreement" checked={values.agreement} onChange={onChange} />
-            Agree to our terms
+            {language === "en" ? en.LABEL_ACCEPT_TERMS : esp.LABEL_ACCEPT_TERMS}
           </label>
           {errors.agreement && <div className="validation">{errors.agreement}</div>}
         </div>
 
         <div>
-          <input type="submit" disabled={!submitAllowed} value="Send" />
+          <input type="submit" disabled={!submitAllowed} value={language === "en" ? en.TEXT_SUBMIT : esp.TEXT_SUBMIT} />
         </div>
       </form>
     </div>
